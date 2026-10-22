@@ -15,7 +15,7 @@ All repositories are under https://github.com/crocosign.
 3. [pjm-models](https://github.com/crocosign/pjm-models): inference
 4. [croco-sign-backend](https://github.com/crocosign/croco-sign-backend) and [croco-sign-frontend](https://github.com/crocosign/croco-sign-frontend): web application
 
-Steps 03 and 05 are also published as the standalone repositories [pjm-segmentation](https://github.com/crocosign/pjm-segmentation) and [crop-params](https://github.com/crocosign/crop-params). This repository is the canonical copy.
+Steps 03 and 05 are also published as the standalone repositories [pjm-segmentation](https://github.com/croco-corp/pjm-segmentation) and [crop-params](https://github.com/croco-corp/crop-params). This repository is the canonical copy.
 
 ## Published data
 
@@ -97,7 +97,7 @@ uv run python match_video_length_and_transcription.py
 
 The text pipeline checks every word with a regex (letter repetitions, mixed case, all caps, longer than 20 characters) and then Hunspell. A word that fails goes to Gemini 2.5 Flash for a correction. A second Gemini call must accept the correction, otherwise it retries once and then keeps the original word. `BielikCorrector` (Bielik-11B-v2.6-Instruct, local GPU) is implemented in `correctors.py` but `main()` uses Gemini. It also writes `lemma_statistics.json` to the current directory. The matcher compares each video's duration (`ffprobe`) with the last cue end in the same-named `.vtt` and, if they differ by more than 1.0 s, cuts both to the last cue that fits. It overwrites the files in `data/videos` and `data/vtts` in place, so work on a copy. The text pipeline writes `data/vtts_fixed` while the matcher reads and edits `data/vtts`, so nothing joins the two outputs. We do not know from the code whether the corrected files were copied over `vtts` by hand before the matcher ran, or the matcher ran first.
 
-**05.** This directory is self-contained (its own `src/crop` package, `pyproject.toml` and `uv.lock`); [crop-params](https://github.com/crocosign/crop-params) is a copy of it:
+**05.** This directory is self-contained (its own `src/crop` package, `pyproject.toml` and `uv.lock`); [crop-params](https://github.com/croco-corp/crop-params) is a copy of it:
 
 ```bash
 cd dataset-processing/05_crop_params
