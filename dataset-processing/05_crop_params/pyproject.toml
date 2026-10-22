@@ -1,0 +1,16 @@
+[project]
+name = "pjm-crop-params"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "datasets>=4.4.1",
+    "lmdb>=1.7.5",
+    "msgpack>=1.1.2",
+    "numpy>=2.2.6",
+    "opencv-python>=4.11.0.86",
+    "pathlib>=1.0.1",
+    "tqdm>=4.67.1",
+    "ultralytics>=8.3.228",
+]

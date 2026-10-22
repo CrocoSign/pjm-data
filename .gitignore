@@ -1,0 +1,12 @@
+.venv/
+data/
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+*.pt
+.vscode/
+.logs/
+.env
+fixer_model/
+.gemini_rate_limits.json
+*:Zone.Identifier
