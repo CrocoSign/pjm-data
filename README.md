@@ -4,7 +4,7 @@ Data preparation for CrocoSign, a Polish Sign Language (PJM) to text translation
 
 The result is published as the Hugging Face dataset [CrocoSign/pjm-data](https://huggingface.co/datasets/CrocoSign/pjm-data): 29,928 video-sentence pairs, about 25 hours, 151 Deaf signers. [https://crocosign.github.io](https://crocosign.github.io) is the overview of the whole project. The thesis itself is written in Polish.
 
-The corpus is licensed for non-commercial use only. Anything derived from it, including this dataset, inherits that restriction.
+The corpus is licensed under CC BY-SA 4.0, and so is this dataset.
 
 ## Where this fits
 
@@ -139,4 +139,4 @@ uv run python main.py
 
 Our code is under the MIT licence (see `LICENSE`).
 
-The Open Repository of the PJM Corpus allows non-commercial use only.
+The Open Repository of the PJM Corpus is licensed under CC BY-SA 4.0; please cite it (Wójcicka, Kuder, Mostowski, Rutkowski (eds.), 2020, ISBN 978-83-66400-21-4).
