@@ -2,7 +2,7 @@
 
 Data preparation for CrocoSign, a Polish Sign Language (PJM) to text translation system built as an engineering thesis at PJATK by Wojciech Sieńko and Rostyslav Kovalenko. This repository turns the Open Repository of the PJM Corpus (Sign Language Linguistics Lab, University of Warsaw) into a machine learning dataset: one-sentence video clips with Polish and English text and a signer ID for every clip.
 
-The result is published as the Hugging Face dataset [croco-corp/pjm-data](https://huggingface.co/datasets/croco-corp/pjm-data): 29,932 video-sentence pairs, about 25 hours, 150 Deaf signers. [https://crocosign.github.io](https://crocosign.github.io) is the overview of the whole project. The thesis itself is written in Polish.
+The result is published as the Hugging Face dataset [CrocoSign/pjm-data](https://huggingface.co/datasets/CrocoSign/pjm-data): 29,928 video-sentence pairs, about 25 hours, 151 Deaf signers. [https://crocosign.github.io](https://crocosign.github.io) is the overview of the whole project. The thesis itself is written in Polish.
 
 The corpus is licensed for non-commercial use only. Anything derived from it, including this dataset, inherits that restriction.
 
@@ -15,17 +15,17 @@ All repositories are under https://github.com/crocosign.
 3. [pjm-models](https://github.com/crocosign/pjm-models): inference
 4. [croco-sign-backend](https://github.com/crocosign/croco-sign-backend) and [croco-sign-frontend](https://github.com/crocosign/croco-sign-frontend): web application
 
-Steps 03 and 05 are also published as the standalone repositories [pjm-segmentation](https://github.com/croco-corp/pjm-segmentation) and [crop-params](https://github.com/croco-corp/crop-params). This repository is the canonical copy.
+Steps 03 and 05 were also published as the standalone repositories [pjm-segmentation](https://github.com/croco-corp/pjm-segmentation) and [crop-params](https://github.com/croco-corp/crop-params), now archived. This repository is the canonical copy.
 
 ## Published data
 
 | Repository | Contents |
 |---|---|
-| dataset [croco-corp/pjm-data](https://huggingface.co/datasets/croco-corp/pjm-data) | `videos/` and `translations/` (the per-signer videos and subtitles from step 02), `dialogs_data.csv` (the step 02 metadata), `splits/` (`pjm_data.csv` and the `split_*` CSV files from step 08), `vectors/` (`texts.h5`, `texts_eng.h5`, `texts_multilang_pjm.h5` and visual feature files), `checkpoints/` |
-| dataset [croco-corp/pjm-segments](https://huggingface.co/datasets/croco-corp/pjm-segments) | The WebDataset shards from step 03: the unfiltered segments, about 40,000 of them. Step 08 starts from 39,817 sentences |
-| model [croco-corp/pjm-models](https://huggingface.co/croco-corp/pjm-models) | Trained models |
+| dataset [CrocoSign/pjm-data](https://huggingface.co/datasets/CrocoSign/pjm-data) | `videos/` and `translations/` (the per-signer videos and subtitles from step 02), `dialogs_data.csv` (the step 02 metadata), `splits/` (`pjm_data.csv` and the `split_*` CSV files from step 08), `vectors/` (`texts.h5`, `texts_eng.h5`, `texts_multilang_pjm.h5` and visual feature files), `poses/` (RTMPose COCO-WholeBody keypoints of every clip), `texts/` (`texts_fixed.csv`: corrected Polish and English next to the originals), `checkpoints/` |
+| dataset [CrocoSign/pjm-segments](https://huggingface.co/datasets/CrocoSign/pjm-segments) | The WebDataset shards from step 03: the unfiltered segments, about 40,000 of them. Step 08 starts from 39,817 sentences |
+| model [CrocoSign/pjm-models](https://huggingface.co/CrocoSign/pjm-models) | Trained models |
 
-The segments repository is not the 29,932-pair dataset. The 29,932 pairs are the result of the filters in step 08: 39,817 sentences, 33,897 after the five selection filters, 29,932 after the quality filter. The split files in `pjm-data/splits/` list the keys that survive.
+The segments repository is not the 29,928-pair dataset. The pairs are the result of the filters in step 08: 39,817 sentences, 33,897 after the five selection filters, 29,932 after the quality filter, and 29,928 after removing four clips with broken video (one to five frames). The split files in `pjm-data/splits/` list the keys that survive.
 
 ## The pipeline
 
@@ -50,7 +50,7 @@ Clip IDs have the form `{video_id:03d}_{index:03d}_{L|R|M}` (left signer, right 
 - `ffmpeg` and `ffprobe`. Steps 02 and 03 encode with `h264_nvenc`, so they need an FFmpeg build with NVENC and an NVIDIA GPU.
 - Hunspell with the Polish dictionary at `/usr/share/hunspell/pl_PL.dic` and `.aff` (Debian: `hunspell-pl`), for step 04.
 - A `.env` file with `GEMINI_API_KEYS` (comma separated, rotated when a key hits its quota) for step 04, and `DeepL_API_Key` for step 07.
-- A Hugging Face token with write access to your own dataset repositories for steps 02 and 03. The defaults point to the `croco-corp` repositories, which you cannot write to.
+- A Hugging Face token with write access to your own dataset repositories for steps 02 and 03. The defaults point to the `CrocoSign` repositories, which you cannot write to.
 - A CUDA GPU for step 05 (default device `cuda:0`).
 
 ```bash
@@ -71,7 +71,7 @@ uv run python dataset-processing/02_split_dialog_videos.py INPUT.csv \
   --hf-repo-id YOUR_NAME/pjm_dialogs
 ```
 
-The left and right halves are cropped from the video, and the audio is dropped. VTT cues are assigned to a side by their `align:` setting. A record whose cue count differs from its `align:` count fails and is written to the error log. Age (`"32-45, 32-45"`) and sex (`"MM"`) are split into one value per side. Results are uploaded in batches to the Hugging Face repository, with `output.csv` as `data.csv`. Failures go to `output/failed_records.csv`. The default `--hf-repo-id` is `croco-corp/pjm-data`, so pass your own repository to upload anywhere else.
+The left and right halves are cropped from the video, and the audio is dropped. VTT cues are assigned to a side by their `align:` setting. A record whose cue count differs from its `align:` count fails and is written to the error log. Age (`"32-45, 32-45"`) and sex (`"MM"`) are split into one value per side. Results are uploaded in batches to the Hugging Face repository, with `output.csv` as `data.csv`. Failures go to `output/failed_records.csv`. The default `--hf-repo-id` is `CrocoSign/pjm-data`, so pass your own repository to upload anywhere else.
 
 **03.** The input CSV needs `video_id, video_url, subtitles_url, speaker_side` (`left`, `right`, anything else counts as a single signer). Run from `dataset-processing`:
 
@@ -105,12 +105,12 @@ uv sync
 uv run python main.py --dataset-path YOUR_NAME/pjm-segments --output output
 ```
 
-**06.** Both notebooks were run in Colab, and their outputs are cleared because they contained private Drive paths and links to a personal Hugging Face account. Their input files (the metadata CSV from steps 01 and 02, `speaker_id_singles.json` and the embedding pickles) were on a private Drive and are not published; each notebook's first cell says what the files contained. The result is published as `splits/pjm_data.csv` in croco-corp/pjm-data. The method:
+**06.** Both notebooks were run in Colab, and their outputs are cleared because they contained private Drive paths and links to a personal Hugging Face account. Their input files (the metadata CSV from steps 01 and 02, `speaker_id_singles.json` and the embedding pickles) were on a private Drive and are not published; each notebook's first cell says what the files contained. The result is published as `splits/pjm_data.csv` in CrocoSign/pjm-data. The method:
 
 - `speaker_id_age_sex.ipynb`: for single-signer videos, DeepFace VGG-Face embeddings of 5 evenly spaced frames are averaged per video, then clustered inside each age and sex group (agglomerative, cosine distance threshold 0.35). IDs look like `F_18-30_001`. The cells that export `speaker_groups.json` and the contact sheet for manual review are hard-coded to one group (`60+`, `M`) and must be edited per group.
 - `speaker_id_dialogs.ipynb`: each dialog half is matched to the nearest speaker centroid among single-signer speakers with the same age and sex, then a hand-written `corrections` list overrides wrong matches, and age and sex are overwritten from the single-signer ground truth. After the automatic clustering and manual verification we had 150 distinct signers.
 
-**07.** Needs Python 3.13. `data/texts.h5` is the Polish caption of every clip, one HDF5 dataset per clip key. No other step creates it, so `build_texts_h5.py` builds it from the `txt` field of the croco-corp/pjm-segments shards (unverified: we ran an equivalent script in the SpaMo-PJM repository, not this copy). The finished `texts.h5` and `texts_eng.h5` are also in `pjm-data/vectors/`.
+**07.** Needs Python 3.13. `data/texts.h5` is the Polish caption of every clip, one HDF5 dataset per clip key. No other step creates it, so `build_texts_h5.py` builds it from the `txt` field of the CrocoSign/pjm-segments shards (unverified: we ran an equivalent script in the SpaMo-PJM repository, not this copy). The finished `texts.h5` and `texts_eng.h5` are also in `pjm-data/vectors/`.
 
 ```bash
 cd dataset-processing/07_text_translation

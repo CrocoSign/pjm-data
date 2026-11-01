@@ -78,7 +78,7 @@ class WebDatasetSegmentWriter(SegmentWriter):
             })
         
 if __name__ == "__main__":
-    HF_REPO = 'croco-corp/pjm-segments'
+    HF_REPO = 'CrocoSign/pjm-segments'
     URL = "https://www.korpuspjm.uw.edu.pl/assets/movies/K64BF01-11_583.mp4"
     downloader = FileDownloader()
     
