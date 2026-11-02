@@ -2,7 +2,7 @@
 
 Data preparation for CrocoSign, a Polish Sign Language (PJM) to text translation system built as an engineering thesis at PJATK by Wojciech Sieńko and Rostyslav Kovalenko. This repository turns the Open Repository of the PJM Corpus (Sign Language Linguistics Lab, University of Warsaw) into a machine learning dataset: one-sentence video clips with Polish and English text and a signer ID for every clip.
 
-The result is published as the Hugging Face dataset [croco-corp/pjm-data](https://huggingface.co/datasets/croco-corp/pjm-data): 29,932 video-sentence pairs, about 25 hours, 150 Deaf signers. [https://crocosign.github.io](https://crocosign.github.io) is the overview of the whole project. The thesis itself is written in Polish.
+The result is published as the Hugging Face dataset [croco-corp/pjm-data](https://huggingface.co/datasets/croco-corp/pjm-data): 29,932 video-sentence pairs, about 25 hours, 150 Deaf signers. [https://crocosign.pl](https://crocosign.pl) is the overview of the whole project. The thesis itself is written in Polish.
 
 The corpus is licensed for non-commercial use only. Anything derived from it, including this dataset, inherits that restriction.
 
