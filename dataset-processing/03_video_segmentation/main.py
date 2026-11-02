@@ -11,8 +11,8 @@ from .transfer import WebDatasetSegmentWriter, FileDownloader, HuggingFacePoster
 def main():
     parser = argparse.ArgumentParser(description='CrocoSign segmentation pipeline')
     
-    parser.add_argument('--hf-repo', default='croco-corp/pjm-segments', 
-                       help='HuggingFace repository name (default: croco-corp/pjm-segments)')
+    parser.add_argument('--hf-repo', default='CrocoSign/pjm-segments', 
+                       help='HuggingFace repository name (default: CrocoSign/pjm-segments)')
     parser.add_argument('--offset-millis', type=int, default=100,
                        help='Offset in milliseconds (default: 100)')
     parser.add_argument('--max-workers', type=int, default=4,

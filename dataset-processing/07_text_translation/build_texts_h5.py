@@ -12,7 +12,7 @@ import h5py
 
 OUTPUT = Path("data/texts.h5")
 
-dataset = datasets.load_dataset("croco-corp/pjm-segments", split="train")
+dataset = datasets.load_dataset("CrocoSign/pjm-segments", split="train")
 OUTPUT.parent.mkdir(exist_ok=True)
 with h5py.File(OUTPUT, mode="w") as f:
     for record in dataset:

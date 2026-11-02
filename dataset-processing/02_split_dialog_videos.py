@@ -47,7 +47,7 @@ class ProcessingConfig:
     ffmpeg_timeout: int = 600   # 10 minutes
     max_workers: int = 4
     temp_dir: Optional[str] = None
-    hf_repo_id: str = 'croco-corp/pjm-data'
+    hf_repo_id: str = 'CrocoSign/pjm-data'
     ignore_patterns: List[str] = None
     
     def __post_init__(self):
@@ -641,7 +641,7 @@ def main():
     parser.add_argument('--output-dir', default='./output', help='Output directory')
     parser.add_argument('--max-size-gb', type=float, default=2.0, help='Maximum folder size in GB before upload')
     parser.add_argument('--max-workers', type=int, default=4, help='Maximum number of worker threads')
-    parser.add_argument('--hf-repo-id', default='croco-corp/pjm-data', help='Hugging Face repository ID')
+    parser.add_argument('--hf-repo-id', default='CrocoSign/pjm-data', help='Hugging Face repository ID')
     parser.add_argument('--temp-dir', help='Temporary directory for processing')
     
     args = parser.parse_args()

@@ -28,8 +28,8 @@ def main():
                         help='LMDB database name (default: crop_params.lmdb)')
     parser.add_argument('--db-size', type=int, default=FOUR_GB,
                         help='LMDB database size in bytes (default: 4GB)')
-    parser.add_argument('--dataset-path', type=str, default='croco-corp/pjm-segments',
-                        help='HuggingFace dataset path (default: croco-corp/pjm-segments)')
+    parser.add_argument('--dataset-path', type=str, default='CrocoSign/pjm-segments',
+                        help='HuggingFace dataset path (default: CrocoSign/pjm-segments)')
     
     args = parser.parse_args()
 
